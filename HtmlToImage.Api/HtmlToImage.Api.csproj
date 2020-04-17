@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\itext\itext.pdfimage\itext.pdfimage.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="itext7.pdfhtml" Version="2.1.7" />
+	</ItemGroup>
+	
+  <ItemGroup>
+    <None Update="input.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+
+</Project>
