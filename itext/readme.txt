@@ -1,0 +1,1 @@
+<add key="iText Artifactory" value="https://repo.itextsupport.com/api/nuget/nuget" />
