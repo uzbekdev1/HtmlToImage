@@ -7,23 +7,18 @@ using System.IO;
 using itext.pdfimage.Models;
 using itext.pdfimage.Extensions;
 using System.Threading;
-
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 
-
 namespace itext.pdfimage
 {
     public class PdfToImageConverter
     {
-        private static int counter;
 
         public IEnumerable<Bitmap> ConvertToBitmaps(PdfDocument pdfDocument)
-        {
-            counter = 0;
-
+        { 
             var numberOfPages = pdfDocument.GetNumberOfPages();
 
             for (var i = 1; i <= numberOfPages; i++)
@@ -50,25 +45,25 @@ namespace itext.pdfimage
         public Bitmap ConvertToBitmap(PdfPage pdfPage)
         {
             var rotation = pdfPage.GetRotation();
-
             var chunkDictionairy = new SortedDictionary<float, IChunk>();
+            var listener = new FilteredEventListener();
+            var counter = 0;
+            float IncreaseCounter() => counter = Interlocked.Increment(ref counter);
 
-            FilteredEventListener listener = new FilteredEventListener();
             listener.AttachEventListener(new TextListener(chunkDictionairy, IncreaseCounter));
             listener.AttachEventListener(new ImageListener(chunkDictionairy, IncreaseCounter));
-            PdfCanvasProcessor processor = new PdfCanvasProcessor(listener);
+
+            var processor = new PdfCanvasProcessor(listener);
             processor.ProcessPageContent(pdfPage);
 
             var size = pdfPage.GetPageSize();
-
             var width = size.GetWidth().PointsToPixels();
             var height = size.GetHeight().PointsToPixels();
+            var bmp = new Bitmap(width, height);
 
-            Bitmap bmp = new Bitmap(width, height);
-            using (Graphics g = Graphics.FromImage(bmp))
+            using (var g = Graphics.FromImage(bmp))
             {
                 g.FillRectangle(Brushes.White, 0, 0, bmp.Width, bmp.Height);
-
                 g.SmoothingMode = SmoothingMode.AntiAlias;
                 g.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
@@ -95,7 +90,6 @@ namespace itext.pdfimage
                     {
                         var chunkX = textChunk.Rect.GetX().PointsToPixels();
                         var chunkY = bmp.Height - textChunk.Rect.GetY().PointsToPixels();
-
                         var fontSize = textChunk.FontSize.PointsToPixels();
 
                         Font font;
@@ -105,7 +99,6 @@ namespace itext.pdfimage
                         }
                         catch (Exception ex)
                         {
-                            //log error
                             Console.WriteLine(ex);
 
                             font = new Font("Calibri", 11, textChunk.FontStyle, GraphicsUnit.Pixel);
@@ -113,7 +106,6 @@ namespace itext.pdfimage
 
                         g.TranslateTransform(chunkX, chunkY, MatrixOrder.Append);
 
-                        //g.DrawString(textChunk.Text, font, new SolidBrush(textChunk.Color), chunkX, chunkY);
                         g.DrawString(textChunk.Text, font, new SolidBrush(textChunk.Color), 0, 0);
                     }
                 }
@@ -127,14 +119,13 @@ namespace itext.pdfimage
         public Stream ConvertToJpgStream(PdfPage pdfPage)
         {
             var bmp = ConvertToBitmap(pdfPage);
-            using (var ms = new MemoryStream())
-            {
-                bmp.Save(ms, ImageFormat.Jpeg);
-                bmp.Dispose();
-                return ms;
-            }
+            using var ms = new MemoryStream();
+
+            bmp.Save(ms, ImageFormat.Jpeg);
+            bmp.Dispose();
+
+            return ms;
         }
 
-        private readonly Func<float> IncreaseCounter = () => counter = Interlocked.Increment(ref counter);
     }
 }

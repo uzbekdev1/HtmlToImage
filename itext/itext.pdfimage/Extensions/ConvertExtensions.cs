@@ -15,6 +15,7 @@ namespace itext.pdfimage.Extensions
 {
     public static class ConvertExtensions
     {
+
         public static IEnumerable<Bitmap> ConvertToBitmaps(this PdfDocument pdfDocument)
         {
             var converter = new PdfToImageConverter();
@@ -45,12 +46,12 @@ namespace itext.pdfimage.Extensions
 
         internal static FontStyle GetFontStyle(this FontNames fontNames)
         {
-            var fontname = fontNames.GetFontName();
-            var fontStyleRegex = Regex.Match(fontname, @"[-,][\w\s]+$");
+            var fontName = fontNames.GetFontName();
+            var fontRegex = Regex.Match(fontName, @"[-,][\w\s]+$");
 
-            if (fontStyleRegex.Success)
+            if (fontRegex.Success)
             {
-                var result = fontStyleRegex.Value.ToLower();
+                var result = fontRegex.Value.ToLower();
 
                 if (result.Contains("bold"))
                 {

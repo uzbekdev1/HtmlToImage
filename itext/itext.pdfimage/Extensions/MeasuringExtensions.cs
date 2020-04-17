@@ -6,6 +6,7 @@ namespace itext.pdfimage.Extensions
 {
     public static class MeasuringExtensions
     {
+
         public static int Dpi { get; set; } = 300;
 
         public static float PixelsToPoints(this float value, int? dpi = null)
@@ -22,5 +23,6 @@ namespace itext.pdfimage.Extensions
         {
             return (int)(value * (dpi ?? Dpi) / 72);
         }
+
     }
 }

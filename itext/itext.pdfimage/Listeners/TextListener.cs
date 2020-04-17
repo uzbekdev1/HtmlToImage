@@ -22,24 +22,18 @@ namespace iText.Kernel.Pdf.Canvas.Parser.Listener
 
         public override void EventOccurred(IEventData data, EventType type)
         {
-            if (!type.Equals(EventType.RENDER_TEXT)) 
+            if (!type.Equals(EventType.RENDER_TEXT))
                 return;
 
-            TextRenderInfo renderInfo = (TextRenderInfo)data;
-
-            float counter = _increaseCounter();
-
+            var renderInfo = (TextRenderInfo)data;
+            var counter = _increaseCounter();
             var font = renderInfo.GetFont().GetFontProgram();
             var originalFontName = font.ToString();
             var fontRegex = Regex.Match(originalFontName, @"(?<=\+)[a-zA-Z\s]+");
-
-            string fontName = fontRegex.Success ? fontRegex.Value : originalFontName;
-
+            var fontName = fontRegex.Success ? fontRegex.Value : originalFontName;
             var fontStyle = font.GetFontNames().GetFontStyle();
-
-            float curFontSize = renderInfo.GetFontSize();
-
-            float key = counter;
+            var curFontSize = renderInfo.GetFontSize();
+            var key = counter;
 
             IList<TextRenderInfo> text = renderInfo.GetCharacterRenderInfos();
             foreach (TextRenderInfo character in text)
@@ -48,43 +42,44 @@ namespace iText.Kernel.Pdf.Canvas.Parser.Listener
 
                 var textRenderMode = character.GetTextRenderMode();
                 var opacity = character.GetGraphicsState().GetFillOpacity();
-                string letter = character.GetText();
+                var letter = character.GetText();
 
                 Color color;
 
                 var fillColor = character.GetFillColor();
                 var colors = fillColor.GetColorValue();
-                if (colors.Length == 1)
+
+                switch (colors.Length)
                 {
-                    color = Color.FromArgb((int)(255 * (1 - colors[0])), Color.Black);
-                }
-                else if (colors.Length == 3)
-                {
-                    color = Color.FromArgb((int)(255 * colors[0]), (int)(255 * colors[1]), (int)(255 * colors[2]));
-                }
-                else if (colors.Length == 4)
-                {
-                    color = Color.FromArgb((int)(255 * colors[0]), (int)(255 * colors[1]), (int)(255 * colors[2]), (int)(255 * colors[3]));
-                }
-                else
-                {
-                    color = Color.Black;
+                    case 1:
+                        color = Color.FromArgb((int)(255 * (1 - colors[0])), Color.Black);
+                        break;
+                    case 3:
+                        color = Color.FromArgb((int)(255 * colors[0]), (int)(255 * colors[1]), (int)(255 * colors[2]));
+                        break;
+                    case 4:
+                        color = Color.FromArgb((int)(255 * colors[0]), (int)(255 * colors[1]), (int)(255 * colors[2]), (int)(255 * colors[3]));
+                        break;
+                    default:
+                        color = Color.Black;
+                        break;
                 }
 
-                if (string.IsNullOrWhiteSpace(letter)) continue;
+                if (string.IsNullOrWhiteSpace(letter)) 
+                    continue;
 
                 //Get the bounding box for the chunk of text
                 var bottomLeft = character.GetDescentLine().GetStartPoint();
                 var topRight = character.GetAscentLine().GetEndPoint();
 
                 //Create a rectangle from it
-                var rect = new Geom.Rectangle(
-                                                        bottomLeft.Get(Vector.I1),
-                                                        topRight.Get(Vector.I2),
-                                                        topRight.Get(Vector.I1),
-                                                        topRight.Get(Vector.I2)
-                                                        );
-
+                var rect = new Geom.Rectangle
+                (
+                    bottomLeft.Get(Vector.I1),
+                    topRight.Get(Vector.I2),
+                    topRight.Get(Vector.I1),
+                    topRight.Get(Vector.I2)
+                );
                 var currentChunk = new itext.pdfimage.Models.TextChunk()
                 {
                     Text = letter,

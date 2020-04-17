@@ -25,7 +25,7 @@ namespace iText.Kernel.Pdf.Canvas.Parser.Listener
             if (type != EventType.RENDER_IMAGE)
                 return;
 
-            float counter = _increaseCounter();
+            var counter = _increaseCounter();
             var renderInfo = (ImageRenderInfo)data;
             var imageObject = renderInfo.GetImage();
             Bitmap image;
@@ -36,8 +36,10 @@ namespace iText.Kernel.Pdf.Canvas.Parser.Listener
 
                 image = new Bitmap(new MemoryStream(imageBytes));
             }
-            catch
+            catch (Exception exp)
             {
+                Console.WriteLine(exp);
+
                 return;
             }
 
@@ -49,16 +51,17 @@ namespace iText.Kernel.Pdf.Canvas.Parser.Listener
                 {
                     var maskImageObject = new PdfImageXObject(smask);
                     var maskBytes = maskImageObject.GetImageBytes();
-                    using (var maskImage = new Bitmap(new MemoryStream(maskBytes)))
-                    {
-                        image = GenerateMaskedImage(image, maskImage);
-                    }
+                    using var maskImage = new Bitmap(new MemoryStream(maskBytes));
+
+                    image = GenerateMaskedImage(image, maskImage);
                 }
-                catch { }
+                catch (Exception exp)
+                {
+                    Console.WriteLine(exp);
+                }
             }
 
             var matix = renderInfo.GetImageCtm();
-
             var imageChunk = new ImageChunk
             {
                 X = matix.Get(Geom.Matrix.I31),
@@ -83,11 +86,12 @@ namespace iText.Kernel.Pdf.Canvas.Parser.Listener
 
             unsafe
             {
-                for (int y = 0; y < image.Height; y++)
+                for (var y = 0; y < image.Height; y++)
                 {
                     byte* ptrMask = (byte*)bitsMask.Scan0 + y * bitsMask.Stride;
                     byte* ptrInput = (byte*)bitsInput.Scan0 + y * bitsInput.Stride;
                     byte* ptrOutput = (byte*)bitsOutput.Scan0 + y * bitsOutput.Stride;
+                    
                     for (int x = 0; x < image.Width; x++)
                     {
                         ptrOutput[4 * x] = ptrInput[4 * x];           // blue
