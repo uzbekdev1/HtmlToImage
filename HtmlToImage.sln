@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30011.22
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1082
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "itext.pdfimage", "itext\itext.pdfimage\itext.pdfimage.csproj", "{7033C7F8-85A2-41C6-85D8-72D361D108CE}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HtmlToImage.Demo", "HtmlToImage.Demo\HtmlToImage.Demo.csproj", "{B6128B0C-1E54-410C-B623-043C65A44554}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HtmlToImage.UI", "HtmlToImage.UI\HtmlToImage.UI.csproj", "{A10BA1BC-B862-4136-BA91-5222FD838DB1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "itext.html2pdf", "itext\itext.html2pdf\itext.html2pdf.csproj", "{D4090B8E-DA92-4CBA-B713-81D2C749A35C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,12 +37,17 @@ Global
 		{A10BA1BC-B862-4136-BA91-5222FD838DB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A10BA1BC-B862-4136-BA91-5222FD838DB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A10BA1BC-B862-4136-BA91-5222FD838DB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4090B8E-DA92-4CBA-B713-81D2C749A35C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4090B8E-DA92-4CBA-B713-81D2C749A35C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4090B8E-DA92-4CBA-B713-81D2C749A35C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4090B8E-DA92-4CBA-B713-81D2C749A35C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7033C7F8-85A2-41C6-85D8-72D361D108CE} = {A127FB8B-E0ED-4A76-A378-ABEF424AE868}
+		{D4090B8E-DA92-4CBA-B713-81D2C749A35C} = {A127FB8B-E0ED-4A76-A378-ABEF424AE868}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8CAE85B1-8EB6-4D5A-9530-D4D1DCF6B707}

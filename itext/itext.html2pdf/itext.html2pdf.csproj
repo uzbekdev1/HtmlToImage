@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup />
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<NoWarn>1701;1702;1591;1570;1572;1573;1574;1580;1584;1658</NoWarn>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<EmbeddedResource Include="resources\default.css">
+			<LogicalName>iText.Html2Pdf.default.css</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Include="resources\font\NotoSansMono-Regular.ttf">
+			<LogicalName>iText.Html2Pdf.font.NotoSansMono-Regular.ttf</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Include="resources\font\NotoSansMono-Bold.ttf">
+			<LogicalName>iText.Html2Pdf.font.NotoSansMono-Bold.ttf</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Include="resources\font\NotoSans-Regular.ttf">
+			<LogicalName>iText.Html2Pdf.font.NotoSans-Regular.ttf</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Include="resources\font\NotoSans-Bold.ttf">
+			<LogicalName>iText.Html2Pdf.font.NotoSans-Bold.ttf</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Include="resources\font\NotoSans-BoldItalic.ttf">
+			<LogicalName>iText.Html2Pdf.font.NotoSans-BoldItalic.ttf</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Include="resources\font\NotoSans-Italic.ttf">
+			<LogicalName>iText.Html2Pdf.font.NotoSans-Italic.ttf</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Include="resources\font\NotoSerif-Regular.ttf">
+			<LogicalName>iText.Html2Pdf.font.NotoSerif-Regular.ttf</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Include="resources\font\NotoSerif-Bold.ttf">
+			<LogicalName>iText.Html2Pdf.font.NotoSerif-Bold.ttf</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Include="resources\font\NotoSerif-BoldItalic.ttf">
+			<LogicalName>iText.Html2Pdf.font.NotoSerif-BoldItalic.ttf</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Include="resources\font\NotoSerif-Italic.ttf">
+			<LogicalName>iText.Html2Pdf.font.NotoSerif-Italic.ttf</LogicalName>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Common.Logging" Version="3.4.1" />
+		<PackageReference Include="itext7" Version="7.1.12-SNAPSHOT" />
+		<PackageReference Include="itext7.font-asian" Version="7.1.12-SNAPSHOT" />
+	</ItemGroup>   
+
+</Project>

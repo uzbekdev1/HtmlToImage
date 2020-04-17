@@ -1,41 +1,324 @@
-﻿<div class="single-content">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <title>ҲИСОБВАРАҚ-ФАКТУРА</title>  
+	<style type="text/css">
+		/*----------------Invoice classes-------------------*/
+		p { font-size: 13px;}
+		.tb-numbers { width:600px; }
+		.tb-numbers td { padding:4px 10px;}
+		.tb-numbers label { display:inline-block; padding:4px 0px 0px; line-height:20px; font-size:12px; }
+		.tb-numbers input { width:100px; }
 
-    <p>«Маълумки, коронавирус пандемияси барча мамлакатлар иқтисодиётига катта зарар етказмоқда. Халқаро валюта жамғармаси ҳисоботида маълум қилинишича, бу йил жаҳон иқтисодиёти кўрсаткичлари камида 3 фоизга пасайиши кутиляпти.</p>
+		.company-info { width:100%; margin:20px auto; }
+		.company-info td {padding:5px 2px; font-size:13px; }
+		
+		.approver-info {width:100%; margin:20px auto; text-align: center}
+		.approver-info .director {font-weight:bold;}
+		.approver-info .title {font-weight:bold; font-size:18px; padding-bottom: 20px;}
+		.approver-info .signature {font-size:11px; padding-top: 40px;}
+		
+		.actDate {float: right}
+		.actDescription {width: 100%; padding-top: 30px}
+		.act-info p {font-weight:bold;}
+		
+		.buyer-box { width:50%; }
+		.buyer-box table { width:100%; }
+		.buyer-box .tb-info { width:310px; }
+		.buyer-box .tb-info td { padding:2px 5px; }
+		.buyer-box .tb-info td.lbl { text-align:right; font-weight:bold; width:40%; }
 
-    <p>Шундай мураккаб даврда Ўзбекистонда иқтисодий барқарорликни сақлаб қолиш ва аҳоли даромадлари камайиб кетмаслигини таъминлаш учун барча резервлар ишга солинмоқда. Зарур чора-тадбирлар умумий ёндашув асосида эмас, ҳар бир тармоқ бўйича алоҳида белгиланаётир. Уларга ёрдам бериш, муаммоларни кундалик ҳал қилиш учун Президент Администрацияси, ҳукумат, вазирлик ва идоралар раҳбарлари 128та йирик ишлаб чиқариш корхонасига бириктирилган», дейилади президенти матбуот хизмати хабарида.</p>
+		.tb-invoice { width:100%; border-collapse: collapse; }
+		.tb-invoice td { padding:2px 4px; border:1px solid #ccc; font-size:11px; text-align:center; }
+		.tb-invoice td input { border:0px; text-align:center;}
+		.tb-invoice .head td { background:#f3f3f3; font-weight:bold; }
 
-    <p>Кимё саноати мавжуд қувватларни сақлаб қолиш билан бирга янги ишлаб чиқаришни йўлга қўйиш учун барча имкониятларга эгалиги қайд этилган, тармоқдаги бугунги ҳолатга йиғилишда танқидий баҳо берилган.</p>
+		.deleteRow { color:Red; font-size:13px; font-weight:bold; cursor:pointer; }
 
-    <p>Хусусан, яқин бир ойда «Навоийазот» акциядорлик жамиятидаги поливинилхлорид корхонаси қувватини 90 фоизга етказиш, азот кислотаси ишлаб чиқариш лойиҳасини фойдаланишга топшириш вазифаси қўйилди.</p>
+		.tb-act { width:100%; border-collapse: collapse; margin-bottom:15px; clear: both; margin: 20px 0px 10px 0px; }
+		.tb-act td { padding:2px 4px; border:1px solid #ccc; font-size:13px; text-align:center; }
+		.tb-act td input { border:0px; text-align:center;}
+		.tb-act .head td { background:#f3f3f3; }
+		.tb-act td .deleteActRow { color:Red; font-size:13px; font-weight:bold; cursor:pointer; }
+		
+		.description {
+			font-size: 12px;
+			text-align: justify;
+			text-indent: 1.5em;
+			white-space: pre-wrap;
+		}
 
-    <p>Ҳозирги эпидемиологик вазият боис тозалаш ва дезинфекция воситаларига талаб ошган. Хусусан, қўшни давлатлардан 2 минг тонна гипохлоритга буюртма келиб тушган. Шунингдек, тоғ-кон металлургия саноати учун муҳим бўлган цианид тузларига ҳам эҳтиёж ортмоқда.</p>
+		.tb-total { width:405px; margin:30px 0px 20px auto; }
+		.tb-total td { padding:2px 5px; font-size:12px; }
+		.tb-total td.lbl { font-weight:bold; text-align:right; }
+		.tb-total td.val { border:1px solid #ccc; min-width:50px; }
+		.tb-total td input { padding:1px; font-size:11px; }
+		.act-link-addrow-container { margin-bottom: 30px; }
+		.link-addrow, .act-link-addrow { text-decoration:none !important; border-bottom:1px dashed #777; font-size:13px; }
+		.btn-box { margin:10px 0px; }
+		.signer-box { width:400px; }
+		
+		.buyer-box .tb-info { width: 400px; }
 
-    <p>Шу боис имкониятларни тўлиқ сафарбар этиш орқали ишлаб чиқариш ҳажмини ошириш, мавжуд қувватларни модернизация қилишга қаратилган янги лойиҳалар тайёрлаш юзасидан кўрсатмалар берилди.</p>
+		
+		.btn-box a {
+			font-size: 14px;
+			margin-left: 10px;
+		}
 
-    <p>Ташқи бозорларда маҳсулотларимиз рақобатдошлигини ошириш учун транспорт харажатларини камайтириш, ҳамкор давлатлар билан келишиб, темир йўл орқали ташишда қулайликлар яратиш муҳимлиги таъкидланди.</p>
+		.podpis-box {
+			clear: both;
+			display: inline-block;
+			font-size: 11px;
+			margin: 20px auto 30px;
+			width: 100%;
+		}
 
-    <p>Бугунги йиғилишда техникаларни ўз вақтида сотиш учун харидор билан ишлаш тизимини ривожлантириш, фермер ва деҳқонларга бу борада кредит имтиёзлари бериш зарурлиги қайд этилди. «Агротехсаноатхолдинг» компаниясига қишлоқ хўжалиги техникаларини электрон буюртма асосида сотиш тизимини жорий этиш вазифаси қўйилди.</p>
+		.tb-podpis { width: 100%; }
 
-    <p>Маҳаллий ишлаб чиқарилган қишлоқ хўжалиги машиналари сифати ва нархи танқид қилинди, бу жиҳатда улар хорижники билан рақобатдош эмаслиги қайд этилди. Техника қиммат бўлса, қишлоқ хўжалиги маҳсулотлари нархига ҳам таъсир қилади.</p>
+		.podpis-box .box1 {
+			float: left;
+			width: 48%;
+		}
 
-    <p>Шу муносабат билан ҳамма техника нарх-навосини таҳлил қилиш асосида ишлаб чиқаришни оптималлаштириш, металл қуйиш қувватларини тезроқ ишга тушириб, локализация даражасини ошириш бўйича топшириқлар берилди.</p>
+		/*SIGNATURES PLACE BEGIN*/
 
-    <p>«Маҳаллийлаштиришдан мақсад – ўзимизнинг қишлоқларга мос, деҳқонларга тўғри келадиган ҳамёнбоп миллий тракторлар ишлаб чиқариш», – деди Шавкат Мирзиёев.</p>
+		.signatures-box {
+			clear: both;
+			display: inline-block;
+			font-size: 11px;
+			margin: 20px auto 30px;
+			width: 100%;
+		}
 
-    <p>Пахта теримини механизациялашни жадаллаштириш, жорий йил сентябргача жойларга камида 1&nbsp;000та пахта териш машинаси етказиб бериш, барча ҳудудларда сервис марказлари ташкил этиш вазифаси белгиланди.</p>
+		.signatures-box .box1 {
+			float: left;
+			width: 35%;
+		}
 
-    <p>Бутун дунёда пандемиядан энг катта зарар кўрган тармоқлардан бири автомобилсозлик бўлмоқда.</p>
+		.signatures-box .box2 {
+			float: right;
+			width: 35%;
+		}
 
-    <p>Бундай шароитда корхоналарнинг барқарор ишлашини таъминлаш учун аввало ички бозор имкониятларидан тўлиқ фойдаланиш зарур.</p>
+		.signatures-box .box1 table, .signatures-box .box2 table { width: 100%; }
 
-    <p>Масалан, мамлакатда эҳтиёт ва бутловчи қисмлар бозори 500 миллион долларни ташкил этади. Маҳаллий маҳсулотларнинг ундаги улуши – атиги 9 фоиз.</p>
+		.signatures-box table td {
+			padding: 3px;
+			text-align: center;
+		}
 
-    <p>Автомобилларнинг янги моделларини ишлаб чиқиш, автокредит бераётган тижорат банкларини рағбатлантириш бўйича кўрсатмалар берилди.</p>
+		/*SIGNATURES PLACE END*/
 
-    <p>«Самавто» ва «МАН» заводларида махсус техникалар ишлаб чиқаришни кенгайтириш, аграр тармоқда талаб кузатилаётган янги турларни ўзлаштириш яхши самара бериши таъкидланди.</p>
+		.podpis-box .box2 {
+			float: right;
+			width: 48%;
+		}
 
-    <p>Автосаноат маҳсулотлари экспортини ошириш масаласига ҳам тўхталиб ўтилди. Ишлаб чиқаришдан тортиб, савдо ва сервис хизматигача бўлган барча жараёнларни рақамлаштириш орқали сифатни назорат қилиш, маҳсулотга ишончни ошириш, очиқ-ошкораликни таъминлаш муҳимлиги қайд этилди.</p>
+		.podpis-box .box1 table, .podpis-box .box2 table { width: 100%; }
 
-    <p>Видеоселектор йиғилишида кимё, агротехника ва автомобиль саноати тармоқлари мутасаддилари, йирик корхоналар раҳбарлари ахборот берди.</p>
+		.podpis-box table td {
+			padding: 3px;
+			text-align: center;
+		}
 
+		.special-line {
+			border-bottom: 1px solid #000;
+			display: block;
+			line-height: 22px !important;
+			text-align: center;
+		}
+
+		.w120 { width: 120px; }
+
+		.w130 { width: 130px; }
+
+		.note { font-size: 11px !important; }
+		.l { text-align: left !important;}
+		.r { text-align: right !important;}
+		.c { text-align: center !important;}
+	</style>
+	
+</head>
+<body style="font-size:100%; padding:0px; margin:0px; font-family:Tahoma,Arial,sans-serif;">
+<div class="invoice">
+    <form class="form-horizontal" method="post" enctype="multipart/form-data">
+        
+		
+		
+		
+		<div>
+            <h4 style="text-align:center; margin:10px 5px 5px;">
+			%invoiceContractDate%й.даги № %invoiceContractNumber% - сонли <br/>
+			товар юклаб жўнатиш ҳужжатига %invoiceDate%й.даги № %invoiceNumber% - сонли<br/>
+			ҲИСОБВАРАҚ-ФАКТУРА										
+			</h4>			
+        </div>
+		
+
+		
+		<table class="company-info">
+            <tr>
+                <td>
+                    <div class="buyer-box">
+                        <table class="tb-info">
+                            <tr>
+                                <td class="lbl">Етказиб берувчи:</td>
+                                <td class="data">%ownerName%</td>
+                            </tr>
+                            <tr>
+                                <td class="lbl">Манзил:</td>
+                                <td class="data">%ownerAddress%</td>
+                            </tr>							
+							<tr>
+                                <td class="lbl">Етказиб берувчининг идентификация рақами (СТИР):</td>
+                                <td class="data">%ownerInn%</td>
+                            </tr>							
+							<tr>
+                                <td class="lbl">ҚҚС тўловчисининг рўйхатдан ўтиш коди:</td>
+                                <td class="data">%ownerNdsCode%</td>
+                            </tr>
+                                                      
+                        </table>
+                    </div>
+                </td>
+                <td>
+                    <div class="buyer-box">
+						<table class="tb-info">
+                            <tr>
+                                <td class="lbl">Сотиб олувчи:</td>
+                                <td class="data">%contractorName%</td>
+                            </tr>
+                            <tr>
+                                <td class="lbl">Манзил:</td>
+                                <td class="data">%contractorAddress%</td>
+                            </tr>							
+							<tr>
+                                <td class="lbl">Сотиб олувчининг идентификация рақами (СТИР):</td>
+                                <td class="data">%contractorInn%</td>
+                            </tr>   														
+							<tr>
+                                <td class="lbl">ҚҚС тўловчисининг рўйхатдан ўтиш коди:</td>
+                                <td class="data">%contractorNdsCode%</td>
+                            </tr>
+                                                   
+                        </table>
+					</div>
+                </td>
+            </tr>
+        </table>
+
+		<table class="tb-invoice">
+			<tr class="head">
+				<td rowspan="3">Т/р</td>
+				<td rowspan="2" style="min-width:200px;">Товар (иш, хизмат)лар номи)</td>
+				<td rowspan="2">Ўлчов бирлиги</td>
+				<td rowspan="2">Миқдори</td>
+				<td rowspan="2">Нархи</td>
+				<td rowspan="2">Етказиб бериш қиймати</td>
+				<td colspan="2">ҚҚС</td>
+				<td rowspan="2">Етказиб беришнинг ҚҚСни ҳисобга олган ҳолда қиймати</td>
+			</tr>
+			<tr class="head">
+				<td>ставкаси</td>
+				<td>суммаси</td>
+			</tr>
+			<tr class="data-row">
+				<td>1</td>
+				<td>2</td>
+				<td>3</td>
+				<td>4</td>
+				<td>5</td>
+				<td>6</td>
+				<td>7</td>
+				<td>8</td>
+			</tr>
+			$array_start_invoiceServices$
+			<tr class="data-row">
+				<td>%number%</td>
+				<td class="l" style="white-space: pre-wrap;">%title%</td>
+				<td>%measurement%</td>
+				<td>%quantity%</td>
+				<td>%pricePerItem%</td>
+				<td>%deliveryCost%</td>
+				<td>%vatRate%</td>
+				<td>%vatAmount%</td>
+				<td>%deliveryCostWithTaxes%</td>
+			</tr>
+			$array_end$
+
+			<tr>
+				<td></td>
+				<td colspan="4">
+					<div class="total" style="float: right;"><b>Жами сўм:</b></div>
+				</td>
+				<td>
+					<div class="total"><b>%invoiceServicesDeliveryCostTotal%</b></div>
+				</td>
+				<td></td>
+				<td>
+					<div class="total"><b>%invoiceServicesVatAmountTotal%</b></div>
+				</td>
+				<td>
+					<div class="total"><b>%invoiceServicesTotalPrice%</b></div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="9">
+					<div class="total"><b>Жами тўлашга: %invoiceServicesTotalPriceInWords%</b></div>
+				</td>
+			</tr>
+		</table>
+		
+			
+
+        <div class="clear h100">&nbsp;</div>        
+
+        <div class="podpis-box">
+			<table style="width:100%;">
+					<tr>
+						<td style="width: 13%;">Раҳбар</td>
+						<td style="width: 19%; vertical-align: bottom;"><span class="special-line"></span><span class="note">(имзо)</span></td>
+						<td style="width: 16%; vertical-align: bottom;"><span class="special-line">%director%</span><span class="note">(Ф.И.Ш)</span></td>
+
+						<td style="width: 4%"></td>
+
+						<td style="width: 13%;">Олдим</td>
+						<td style="width: 19%; vertical-align: bottom;"><span class="special-line"></span><span class="note">(имзо)</span></td>
+						<td style="width: 16%; vertical-align: bottom;">&nbsp;</td>
+					</tr>
+					
+					<tr>
+						<td style="width: 13%;">Бош бухгалтер:</td>
+						<td style="width: 19%; vertical-align: bottom;"><span class="special-line"> </span><span class="note">&nbsp </span></td>
+						<td style="width: 16%; vertical-align: bottom;"><span class="special-line">%accountant%</span><span class="note">(Ф.И.Ш)</span></td>
+
+						<td style="width: 4%"></td>
+
+						<td style="width: 13%;"></td>
+						<td style="width: 19%; vertical-align: bottom;"></td>
+						<td style="width: 16%; vertical-align: bottom;"></td>
+					</tr>
+					
+					<tr>
+						<td style="width: 13%;">Товарни бердим :</td>
+						<td style="width: 19%; vertical-align: bottom;"><span class="special-line"> </span><span class="note">&nbsp </span></td>
+						<td style="width: 16%; vertical-align: bottom;"><span class="special-line"></span><span class="note">(Ф.И.Ш)</span></td>
+
+						<td style="width: 4%"></td>
+
+						<td style="width: 13%;"></td>
+						<td colspan="2" style="width: 19%;"></td>
+						
+					</tr>
+			</table>
+		</div>	
+		
+        <div class="clear"></div>
+		
+    </form>
 </div>
+</body>
+</html>
