@@ -9,7 +9,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\itext\itext.html2pdf\itext.html2pdf.csproj" />
 		<ProjectReference Include="..\itext\itext.pdfimage\itext.pdfimage.csproj" />
 	</ItemGroup>
 
